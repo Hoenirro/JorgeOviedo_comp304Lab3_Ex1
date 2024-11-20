@@ -64,4 +64,14 @@ class CitiesViewModel(private val repository: AppRepository) : ViewModel() {
             dbcities = repository.getCitiesFromDB()
         }
     }
+
+    fun deleteCityByName(cityName: String) {
+        viewModelScope.launch {
+            val city = dbcities.find { it.cityName == cityName }
+            if (city != null) {
+                repository.deleteCity(city)
+                dbcities = repository.getCitiesFromDB()
+            }
+        }
+    }
 }
